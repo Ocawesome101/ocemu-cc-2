@@ -1,0 +1,7 @@
+{
+  {"screen"},
+  {"gpu"},
+  {"keyboard"},
+  {"filesystem"},
+  {"computer"}
+}
