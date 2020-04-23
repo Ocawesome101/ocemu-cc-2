@@ -1,0 +1,33 @@
+[000.07972] Kernel startup: phase 1
+[000.08244] Initialized loadfile
+[000.08423] Initialized term.*, write(), and print()
+[000.08690] Loading filesystem API from /lib/filesystem.lua
+[000.09149] Reinitializing loadfile
+[000.09313] Kernel startup: stage 2
+[000.09477] Setting up kernel hooks
+[000.09638] Loading init from /sbin/init.lua
+[000.10157] Starting init services
+[000.10389] Loading /etc/init.d/00_base.lua
+[000.10769] Loading /etc/init.d/10_event.lua
+[000.11113] Loading /etc/init.d/20_read.lua
+[000.11542] Loading /etc/init.d/30_errors.lua
+[000.11839] Loading /etc/init.d/40_tables.lua
+[000.12140] Loading /etc/init.d/50_modules.lua
+[000.12578] Loading /etc/init.d/60_networking.lua
+[000.12916] Checking for an internet card
+[000.13118] Found internet card and created proxy
+[000.13305] Loading /etc/init.d/70_filesystem.lua
+[000.13725] Getting root filesystem address
+[000.14244] Initializing mount system
+[000.14427] Mounting filesystem 15cd2213-ff55-55c5-2ecc-a9ca7395dae1 at /
+[000.14696] Mounting external filesystems
+[000.14880] Mounting filesystem c55d3a93-a72d-73fb-f51f-8f6b0fad7b24 at /tmp
+[000.15205] Loading /etc/init.d/80_multithreading.lua
+[000.15666] Starting OpenRC
+[000.15962] Checking for OpenRC configuration at /etc/openrc.cfg
+[000.16254] Starting OpenRC service logd
+[000.16499] Spawning process 2 with name logd
+[000.16671] Starting shell
+[000.17779] Spawning process 3 with name shell
+[015.2017] Task logd died: cannot resume dead coroutine
+[015.2068] Task shell died: cannot resume dead coroutine

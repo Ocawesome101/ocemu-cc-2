@@ -1,0 +1,3 @@
+-- EXIT --
+
+shell.exit()

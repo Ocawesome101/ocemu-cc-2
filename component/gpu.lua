@@ -6,15 +6,19 @@ local color = require("oc_colors").ocolor
 local getco = require("oc_colors").ccolor
 local gpu = {}
 
+local w, h = term.getSize()
 local bound
-local buffer = window.create(term.native(), 1, 1, 50, 16, true)
+local buffer = window.create(term.native(), 1, 1, w, h, true)
+
+buffer.setTextColor(colors.white)
+buffer.setBackgroundColor(colors.black)
 
 function gpu.bind(screen)
   expect(1, screen, "string")
-  if require("component").type(screen) == "screen" then
+  --[[if require("component").type(screen) == "screen" then
     bound = screen
   end
-  error("component is not a screen")
+  error("component is not a screen")]]
 end
 
 function gpu.set(x, y, s, v)
@@ -30,7 +34,7 @@ function gpu.set(x, y, s, v)
       i = i + 1
     end
   else
-    local i = x
+    local i = 0
     for c in s:gmatch(".") do
       buffer.setCursorPos(x + i, y)
       buffer.write(c)
@@ -60,16 +64,16 @@ end
 
 function gpu.setForeground(c)
   expect(1, c, "number")
-  return buffer.setTextColor(getco(c))
+  return buffer.setTextColor((c > 0 and colors.white) or colors.black)--getco(c))
 end
 
 function gpu.setBackground(c)
   expect(1, c, "number")
-  return buffer.setBackgroundColor(getco(c))
+  return buffer.setBackgroundColor((c > 0 and colors.white) or colors.black)--getco(c))
 end
 
 function gpu.getDepth()
-  return 4
+  return 1
 end
 
 function gpu.setDepth()
@@ -81,11 +85,15 @@ function gpu.maxDepth()
 end
 
 function gpu.maxResolution()
-  return 50, 16
+  return w, h
 end
 
 function gpu.setResolution()
   return nil
+end
+
+function gpu.getResolution()
+  return w, h
 end
 
 function gpu.copy(x, y, w, h, tx, ty)
@@ -103,7 +111,7 @@ function gpu.fill(x, y, w, h, c)
   c = c:sub(1,1)
   for _x=x, x+w, 1 do
     for _y=y, y+h, 1 do
-      gpu.set(_x, _y, _c)
+      gpu.set(_x, _y, c)
     end
   end
 end

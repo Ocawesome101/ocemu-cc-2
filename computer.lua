@@ -1,5 +1,6 @@
-local expect = require("cc.expect")
-local component = require("component")
+local expect = require("cc.expect").expect
+local c = {}
+local component = setmetatable(c, {__index = function(_, k)c = require("component") setmetatable(c, {__index = {}}) return c[k] end})
 
 local keymap = {
   apostrophe = "'",
@@ -7,7 +8,22 @@ local keymap = {
   hyphen = "-",
   underscore = "_",
   colon = ":",
-  semicolon = ";"
+  semicolon = ";",
+  enter = string.char(13),
+  backspace = string.char(8),
+  left = string.char(0),
+  right = string.char(0),
+  up = string.char(0),
+  down = string.char(0),
+  leftCtrl = string.char(0),
+  rightCtrl = string.char(0),
+  leftShift = string.char(0),
+  rightShift = string.char(0),
+  space = " ",
+  capsLock = string.char(0),
+  equals = "=",
+  slash = "/",
+  backslash = "\\"
 }
 
 local function parse(evt)
@@ -16,37 +32,54 @@ local function parse(evt)
   if id == "key" then
     r[1] = "key_down"
     r[2] = component.list("keyboard")()
-    local k = keys.getName(e[2])
+    local k = keys.getName(evt[2])
     if keymap[k] then
       k = keymap[k]
     end
     r[3] = k:byte()
-    r[4] = e[2]
-  elseif id == "key_up" then 
+    r[4] = evt[2]
+  --[[elseif id == "key_up" then
     r[1] = id
     r[2] = component.list("keyboard")()
-    local k = keys.getName(e[2])
+    local k = keys.getName(evt[2])
     if keymap[k] then
       k = keymap[k]
     end
     r[3] = k:byte()
-    r[4] = e[2]
+    r[4] = evt[2]]
   else
-    r = e
+    r = evt
   end
   return table.unpack(r)
 end
 
 local c = {}
 
+c.address = ""
+
+debug.setmetatable(c.address, {__call = function()return c.address end, __index = string})
+
+function c.tmpAddress()
+  return component.list("filesystem")()
+end
+
+function c.freeMemory()
+  return math.huge
+end
+
+function c.totalMemory()
+  return math.huge
+end
+
 function c.pullSignal(t)
   expect(1, t, "number", "nil")
   local id
-  if timer then
+  if t and t ~= math.huge then
    id = os.startTimer(t)
   end
+  local e
   repeat
-    local e = {os.pullEvent()}
+    e = {os.pullEvent()}
     if e[1] == "timer" and e[2] == id then
       return nil
     end
@@ -54,20 +87,23 @@ function c.pullSignal(t)
   return parse(e)
 end
 
-function c.pushSignal(...)
-  return os.queuEvent(...)
+function c.pushSignal(evt, ...)
+--  debug.debug("pushed signal " .. table.concat({evt, ...}, " "))
+  return os.queueEvent(evt, ...)
 end
 
 function c.beep()
   return true
 end
 
+c.uptime = os.time
+
 function c.getDeviceInfo()
   error("getDeviceInfo not implemented")
 end
 
 function c.shutdown(r)
-  expect(1, r, "", "")
+  expect(1, r, "boolean", "nil")
   if r then
     os.reboot()
   else

@@ -1,0 +1,42 @@
+{
+  [ "shell.allow_disk_startup" ] = true,
+  [ "motd.enable" ] = false,
+  [ "shell.allow_startup" ] = true,
+  [ "motd.path" ] = "/rom/motd.txt:/motd.txt",
+  [ "shell.report_plugin_errors" ] = true,
+  [ "edit.default_extension" ] = "lua",
+  [ "shell.autocomplete" ] = true,
+  [ "lua.autocomplete" ] = true,
+  [ "oc.components" ] = {
+    {
+      "screen",
+      "d764c8cc-e932-45c4-878d-7aa05d83f3ea",
+    },
+    {
+      "gpu",
+      "a2b7249b-043e-43cd-a866-211bff3783d6",
+    },
+    {
+      "keyboard",
+      "9c4ba386-7ef9-4ac5-86c5-66e4485aceeb",
+    },
+    {
+      "filesystem",
+      "11f38616-31a9-4359-9005-75103cf8e6d9",
+    },
+    {
+      "computer",
+      "448a60c2-83aa-480a-b0ee-eeb848bda35a",
+    },
+    {
+      "eeprom",
+      "b02a70e1-d454-4ae4-99af-f496a8db70ec",
+    },
+  },
+  [ "shell.store_history" ] = true,
+  [ "bios.use_multishell" ] = true,
+  [ "paint.default_extension" ] = "nfp",
+  [ "bios.use_cash" ] = true,
+  [ "edit.autocomplete" ] = true,
+  [ "list.show_hidden" ] = false,
+}

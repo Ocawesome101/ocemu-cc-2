@@ -3,5 +3,6 @@
   {"gpu"},
   {"keyboard"},
   {"filesystem"},
-  {"computer"}
+  {"computer"},
+  {"eeprom"}
 }

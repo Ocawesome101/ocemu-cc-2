@@ -4,7 +4,7 @@ local component = {}
 
 local expect = require("cc.expect").expect
 
-local default, err = settings.get("oc.components") or load("return " .. fs.open("/oc/components", "r").readAll(), "=components")()
+local default, err = settings.get("oc.components") or load("return " .. fs.open("/components", "r").readAll(), "=components")()
 if not default then
   error(err)
 end
@@ -42,19 +42,26 @@ for i=1, #default, 1 do
     error(textutils.serialize(default))
   end
   local ctyp = c[1]
-  local addr = c[2] or randomAddress()
+  c[2] = c[2] or randomAddress()
+  local addr = c[2]
   local prox = require("component." .. ctyp)
   prox.address = addr
   prox.type = ctyp
+--[[  if ctyp == "filesystem" then
+    prox.setAddress(prox.address)
+  end]]
   components[addr] = {type = ctyp, proxy = prox}
 end
+
+settings.set("oc.components", default)
+settings.save(".settings")
 
 local function checkAddress(address)
   expect(1, address, "string")
   if not components[address] then
-    error("no such component")
+    error("no such component: " .. address)
   else
-    return component[address]
+    return components[address]
   end
 end
 
@@ -62,6 +69,12 @@ function component.invoke(address, field, ...)
   expect(1, address, "string")
   expect(2, field, "string")
   local comp = checkAddress(address)
+  if not comp then
+    error(address .. ": no such component")
+  end
+  if not comp.proxy[field] then
+    error("attempt to call/index field '" .. field .. "' (a nil value)")
+  end
   return comp.proxy[field](...)
 end
 
@@ -79,14 +92,20 @@ function component.list(ctype, exact)
       matches[a] = c.type
     end
   end
+  local sehctam = {}
+  for a, t in pairs(matches) do
+    sehctam[#sehctam + 1] = {a, t}
+  end
   return setmetatable(matches, {__call = function()
-    return next(matches) 
+    local e = table.remove(sehctam)
+    if e then return e[1], e[2] end
   end})
 end
 
 function component.proxy(address)
   expect(1, address, "string")
-  return checkAddress(address).proxy
+  local prx = checkAddress(address)
+  return setmetatable({address = address, type = prx.type}, {__index = prx.proxy})
 end
 
 return component

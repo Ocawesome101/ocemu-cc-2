@@ -1,0 +1,3 @@
+-- pwd --
+
+print(shell.pwd())
