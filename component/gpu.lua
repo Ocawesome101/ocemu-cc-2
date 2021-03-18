@@ -2,8 +2,8 @@
 
 local expect = require("cc.expect").expect
 --local component = require("component")
-local color = require("oc_colors").ocolor
-local getco = require("oc_colors").ccolor
+local color = require("apis.oc_colors").ocolor
+local getco = require("apis.oc_colors").ccolor
 local gpu = {}
 
 local w, h = term.getSize()
@@ -77,7 +77,7 @@ function gpu.getDepth()
 end
 
 function gpu.setDepth()
-  error("you have asked for the impossible")
+  return true
 end
 
 function gpu.maxDepth()

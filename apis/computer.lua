@@ -1,14 +1,17 @@
 local expect = require("cc.expect").expect
 local c = {}
-local component = setmetatable(c, {__index = function(_, k)c = require("component") setmetatable(c, {__index = {}}) return c[k] end})
+local component = setmetatable(c, {__index = function(_, k)c = require("apis/component") setmetatable(c, {__index = {}}) return c[k] end})
 
 local keymap = {
   apostrophe = "'",
   comma = ",",
+  period = ".",
   hyphen = "-",
+  minus = "-",
   underscore = "_",
   colon = ":",
   semicolon = ";",
+  semiColon = ";",
   enter = string.char(13),
   backspace = string.char(8),
   left = string.char(0),
@@ -26,27 +29,38 @@ local keymap = {
   backslash = "\\"
 }
 
+local function get_char(c)
+  local sig, ch
+  repeat
+    sig, ch = os.pullEvent()
+  until sig == "char" or sig == "key_up"
+  if sig == "char" then
+    return ch
+  end
+  return keys.getName(c)
+end
+
 local function parse(evt)
   local id = evt[1]
   local r = {}
   if id == "key" then
     r[1] = "key_down"
     r[2] = component.list("keyboard")()
-    local k = keys.getName(evt[2])
+    local k = get_char(evt[2])
     if keymap[k] then
       k = keymap[k]
     end
     r[3] = k:byte()
     r[4] = evt[2]
-  --[[elseif id == "key_up" then
+  elseif id == "key_up" then
     r[1] = id
     r[2] = component.list("keyboard")()
-    local k = keys.getName(evt[2])
+    local k = get_char(evt[2])
     if keymap[k] then
       k = keymap[k]
     end
     r[3] = k:byte()
-    r[4] = evt[2]]
+    r[4] = evt[2]
   else
     r = evt
   end

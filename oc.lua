@@ -1,7 +1,7 @@
 -- OpenComputers emulator! --
 
-local computer = require("computer")
-local component = require("component")
+local computer = require("apis.computer")
+local component = require("apis.component")
 --debug.debug()
 
 local function tcopy(t)

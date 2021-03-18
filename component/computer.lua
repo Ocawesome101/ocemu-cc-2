@@ -6,5 +6,5 @@ c.address = ""
 c.type = "computer"
 
 return setmetatable(c, {__index = function(tbl, k)
-  setmetatable(tbl, {__index = require("computer")})
+  setmetatable(tbl, {__index = require("apis.computer")})
 end})
