@@ -1,36 +1,26 @@
--- Load OC-DOS --
+-- I've been spending so much time writing OSes for CC, it's about time I wrote one for OC. --
+-- This script just loads the kernel. That's all it does. You can go now. --
 
-_G._START = computer.uptime()
-
-local list, invoke = component.list, component.invoke
-if not computer.getBootAddress then
-  computer.getBootAddress = function()return nil end
-end
-local boot_fs = computer.getBootAddress() or list("filesystem")()
-
-local ps = computer.pullSignal
+local addr, invoke = computer.getBootAddress(), component.invoke
 
 local function loadfile(file)
-  local handle = invoke(boot_fs, "open", file)
-  if not handle then
-    return false, "File not found"
-  end
+  local handle = assert(invoke(addr, "open", file))
   local buffer = ""
   repeat
-    local data = invoke(boot_fs, "read", handle, math.huge)
+    local data = invoke(addr, "read", handle, math.huge)
     buffer = buffer .. (data or "")
   until not data
+  invoke(addr, "close", handle)
   return load(buffer, "=" .. file, "bt", _G)
 end
 
-component.invoke(component.list("gpu")(), "set", 1, 1, "Starting OC-DOS....")
+loadfile("/boot/kernel.lua")()
 
-local ok, err = loadfile("/io.lua")
-if not ok then
-  if error then
-    error(err)
+while true do
+  local sig, _, n = computer.pullSignal()
+  if sig == "key_down" then
+    if string.char(n) == "r" then
+      computer.shutdown(true)
+    end
   end
-else
-  ok()
 end
-

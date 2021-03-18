@@ -1,0 +1,17 @@
+init.lua
+io.lua
+ocdos.lua
+command.lua
+dos/
+dos/cd.lua
+dos/del.lua
+dos/echo.lua
+dos/exit.lua
+dos/mem.lua
+dos/poweroff.lua
+dos/cls.lua
+dos/dir.lua
+dos/edit.lua
+dos/label.lua
+dos/mkdir.lua
+dos/restart.lua

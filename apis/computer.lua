@@ -28,6 +28,7 @@ local keymap = {
   slash = "/",
   backslash = "\\"
 }
+local down = {}
 
 local function get_char(c)
   local sig, ch
@@ -52,15 +53,13 @@ local function parse(evt)
     end
     r[3] = k:byte()
     r[4] = evt[2]
+    down = {r[3],r[4]}
   elseif id == "key_up" then
     r[1] = id
     r[2] = component.list("keyboard")()
-    local k = get_char(evt[2])
-    if keymap[k] then
-      k = keymap[k]
-    end
-    r[3] = k:byte()
-    r[4] = evt[2]
+    r[3] = down[1] or evt[3]
+    r[4] = down[2] or evt[4]
+    down = {}
   else
     r = evt
   end

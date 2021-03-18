@@ -38,21 +38,24 @@ local pal  = {
   [0x8000] = "0"
 }
 
-local gpu = {
-  ["0"] = 0x8000,
-  ["8"] = 0x100,
-  ["f"] = 0x1
+local term = {
+  f     = 0x1,
+  e     = 0x2,
+  d     = 0x4,
+  c     = 0x8,
+  b     = 0x10,
+  a     = 0x20,
+  ["9"] = 0x40,
+  ["8"] = 0x80,
+  ["7"] = 0x100,
+  ["6"] = 0x200,
+  ["5"] = 0x400,
+  ["4"] = 0x800,
+  ["3"] = 0x1000,
+  ["2"] = 0x2000,
+  ["1"] = 0x4000,
+  ["0"] = 0x8000
 }
-
-local function round(val)
-  if val > 0x111111 then
-    return "f"
-  elseif val == 0x111111 then
-    return "8"
-  else
-    return "0"
-  end
-end
 
 local c = {}
 function c.ocolor(ch)
@@ -63,36 +66,14 @@ function c.ocolor(ch)
   end
 end
 
--- fairly advanced color-conversion system that doesn't work
+-- fairly basic color-conversion system
 function c.ccolor(co)
---[[  local r, g, b = colors.unpackRGB(co)
-  r, g, b = 255 * r, 255 * g, 255 * b]]
-  local diff = {
-    --[[r = {},
-    g = {},
-    b = {}]]
-  }
-  local col = {}
-  for character, color in pairs(blit) do
-    --[[local cr, cg, cb = colors.unpackRGB(co)
-    cr, cg, cb = 255 * cr, 255 * cg, 255 * cb
-    local dr, dg, db = r / cr, g / cg, b / cb]]
-    diff[#diff + 1] = {diff = color - co, color = color}
-    col[#diff] = color - co
-  end
-  local min = math.min(table.unpack(col))
-  for k, v in pairs(diff) do
-    if v.diff == min then
-      for b, c in pairs(blit) do
-        if c == v.color then
-          for p, _b in pairs(pal) do
-            if _b == b then
-              return p
-            end
-          end
-        end
-      end
-    end
+  local r, g, b = colors.unpackRGB(co)
+  r, g, b = 255 * r, 255 * g, 255 * b
+  if r > 0x30 or g >= 0x30 or b >= 0x30 then
+    return term.f
+  else
+    return term["0"]
   end
 end
 

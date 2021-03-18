@@ -64,12 +64,12 @@ end
 
 function gpu.setForeground(c)
   expect(1, c, "number")
-  return buffer.setTextColor((c > 0 and colors.white) or colors.black)--getco(c))
+  return buffer.setTextColor(getco(c))
 end
 
 function gpu.setBackground(c)
   expect(1, c, "number")
-  return buffer.setBackgroundColor((c > 0 and colors.white) or colors.black)--getco(c))
+  return buffer.setBackgroundColor(getco(c))
 end
 
 function gpu.getDepth()

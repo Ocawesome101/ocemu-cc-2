@@ -1,5 +1,7 @@
 -- Load OC-DOS --
 
+_G._START = computer.uptime()
+
 local list, invoke = component.list, component.invoke
 if not computer.getBootAddress then
   computer.getBootAddress = function()return nil end
@@ -21,6 +23,8 @@ local function loadfile(file)
   return load(buffer, "=" .. file, "bt", _G)
 end
 
+component.invoke(component.list("gpu")(), "set", 1, 1, "Starting OC-DOS....")
+
 local ok, err = loadfile("/io.lua")
 if not ok then
   if error then
@@ -30,6 +34,3 @@ else
   ok()
 end
 
-while true do
-  ps()
-end
