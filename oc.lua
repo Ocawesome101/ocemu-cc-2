@@ -94,7 +94,7 @@ if setfenv then
   setfenv(bios, sandbox)
 end
 
-local s, r = pcall(bios)
+local s, r = xpcall(bios, debug.traceback)
 if not s and r then
   error(r)
 end

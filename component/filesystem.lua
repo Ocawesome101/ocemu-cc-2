@@ -41,7 +41,7 @@ function filesystem.open(file, mode)
   if not fs.exists(afile) then
     return nil, file
   end
-  local h = io.open(afile, (mode or "r"))
+  local h = io.open(afile, (mode or "r") .. "b")
   local hid = #handles + 1
   handles[hid] = h
   return hid
@@ -52,7 +52,7 @@ function filesystem.read(h, a)
   expect(2, a, "number")
   if a > 2048 then a = 2048 end
   if not handles[h] then
-    return nil, "invalid handle"
+    return nil, "bad file descriptor"
   end
   return handles[h]:read(a)
 end
@@ -61,7 +61,7 @@ function filesystem.write(h, d)
   expect(1, h, "number")
   expect(2, d, "string")
   if not handles[h] then
-    return nil, "invalid handle"
+    return nil, "bad file descriptor"
   end
   return handles[h]:write(d)
 end
@@ -71,7 +71,7 @@ function filesystem.seek(h, w, o)
   expect(2, w, "string")
   expect(3, o, "number")
   if not handles[h] then
-    return nil, "invalid handle"
+    return nil, "bad file descriptor"
   end
   return handles[h]:seek(h, w, o)
 end
@@ -79,7 +79,7 @@ end
 function filesystem.close(h)
   expect(1, h, "number")
   if not handles[h] then
-    return nil, "invalid handle"
+    return nil, "bad file descriptor"
   end
   return handles[h]:close()
 end

@@ -1,42 +1,28 @@
 {
-  [ "shell.allow_disk_startup" ] = true,
-  [ "motd.enable" ] = false,
-  [ "shell.allow_startup" ] = true,
-  [ "shell.store_history" ] = true,
-  [ "shell.report_plugin_errors" ] = true,
-  [ "edit.default_extension" ] = "lua",
-  [ "shell.autocomplete" ] = true,
-  [ "lua.autocomplete" ] = true,
   [ "oc.components" ] = {
     {
       "screen",
-      "d764c8cc-e932-45c4-878d-7aa05d83f3ea",
+      "bec9ec92-a6e4-41b3-a2f8-88f20e802737",
     },
     {
       "gpu",
-      "a2b7249b-043e-43cd-a866-211bff3783d6",
+      "6f57bc49-65ae-4af6-b59d-08c7008442be",
     },
     {
       "keyboard",
-      "9c4ba386-7ef9-4ac5-86c5-66e4485aceeb",
+      "4e2f51f4-14c2-4876-ba31-69c9b1900121",
     },
     {
       "filesystem",
-      "11f38616-31a9-4359-9005-75103cf8e6d9",
+      "e7be6a4d-6c65-43e1-834b-a904d0ecc21f",
     },
     {
       "computer",
-      "448a60c2-83aa-480a-b0ee-eeb848bda35a",
+      "1b141430-d6bc-4791-ad10-5b9fa05cc088",
     },
     {
       "eeprom",
-      "b02a70e1-d454-4ae4-99af-f496a8db70ec",
+      "1a2bd587-9118-4994-a412-9935fe5c541a",
     },
   },
-  [ "motd.path" ] = "/rom/motd.txt:/motd.txt",
-  [ "bios.use_multishell" ] = true,
-  [ "paint.default_extension" ] = "nfp",
-  [ "bios.use_cash" ] = true,
-  [ "edit.autocomplete" ] = true,
-  [ "list.show_hidden" ] = false,
 }
